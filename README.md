@@ -1,6 +1,5 @@
 # tribonacci
-Max tribonacci number in 1 second on my laptop
-
+Calculating Tribonacci numbers of the sequence: 1, 1, 1, 3, 5, ... (https://oeis.org/A056816)
 ## Leaderboard:
 |Name|Sum|Lines|
 |-|-|-|

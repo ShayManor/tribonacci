@@ -4,7 +4,7 @@ use num_traits::One;
 fn main() {
     let mut cur = BigUint::ONE;
     let mut mid = BigUint::ONE;
-    let mut last = BigUint::ZERO;
+    let mut last = BigUint::ONE;
     println!("{}", last);
     println!("{}", mid);
     println!("{}", cur);
