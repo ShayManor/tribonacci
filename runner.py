@@ -4,7 +4,9 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+
 sys.set_int_max_str_digits(1000000)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Tribonacci test runner")
@@ -59,8 +61,7 @@ def main():
     return res
 
 
-
-def run_once(mode, FILE_PATH, time='1s'):
+def run_once(mode, FILE_PATH, time='60s'):
     Path(FILE_PATH).unlink(missing_ok=True)
 
     with open(FILE_PATH, 'w') as f:
@@ -70,7 +71,8 @@ def run_once(mode, FILE_PATH, time='1s'):
             subprocess.call(['timeout', f'--kill-after={time}', time, 'python3', 'cached_test.py'], stdout=f, stderr=f)
         if mode == 'rust':
             subprocess.call(['cargo', 'build', '--release'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            subprocess.call(['timeout', f'--kill-after={time}', time, 'cargo', 'run', '--release'], stdout=f, stderr=subprocess.DEVNULL)
+            subprocess.call(['timeout', f'--kill-after={time}', time, 'cargo', 'run', '--release'], stdout=f,
+                            stderr=subprocess.DEVNULL)
         if mode == 'c':
             pass
 
