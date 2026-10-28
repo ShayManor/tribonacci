@@ -2,20 +2,31 @@ import argparse
 import math
 import os
 import subprocess
+import sys
 from pathlib import Path
-
+sys.set_int_max_str_digits(1000000)
 
 def main():
     parser = argparse.ArgumentParser(description="Tribonacci test runner")
     parser.add_argument('--mode', type=str, default='python', help='Which mode to run')
     parser.add_argument('--leaderboard', action='store_true', help="Run leaderboard config to get final values")
     parser.add_argument('--test', action='store_true', help="Run as test")
+    parser.add_argument('--benchmark', action='store_true', help="Get interval times")
 
     args = parser.parse_args()
     FILE_PATH = 'output.txt'
     mode = args.mode
     run_test = args.test
     run_lead = args.leaderboard
+    benchmark = args.benchmark
+    if benchmark:
+        times = [0.5, 1, 1.5, 2, 3, 5, 7.5, 10, 12.5, 15, 20, 30, 40, 45, 60]
+        results = {}
+        for time in times:
+            line, res = run_once(mode, FILE_PATH, time=f'{time}s')
+            results[time] = res
+            print(f"{time}: {math.log2(res):.2f}")
+        return
 
     if run_lead:
         N = 20
@@ -49,16 +60,17 @@ def main():
 
 
 
-def run_once(mode, FILE_PATH):
+def run_once(mode, FILE_PATH, time='1s'):
     Path(FILE_PATH).unlink(missing_ok=True)
 
     with open(FILE_PATH, 'w') as f:
         if mode == 'python':
-            subprocess.call(['timeout', '--kill-after=1s', '1s', 'python3', 'test.py'], stdout=f, stderr=f)
+            subprocess.call(['timeout', f'--kill-after={time}', time, 'python3', 'test.py'], stdout=f, stderr=f)
         if mode == 'python-cache':
-            subprocess.call(['timeout', '--kill-after=1s', '1s', 'python3', 'cached_test.py'], stdout=f, stderr=f)
+            subprocess.call(['timeout', f'--kill-after={time}', time, 'python3', 'cached_test.py'], stdout=f, stderr=f)
         if mode == 'rust':
-            subprocess.call(['timeout --kill-after=1s 1s rustc rust_test.r && ./rust'], stdout=f, stderr=f)
+            subprocess.call(['cargo', 'build', '--release'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.call(['timeout', f'--kill-after={time}', time, 'cargo', 'run', '--release'], stdout=f, stderr=subprocess.DEVNULL)
         if mode == 'c':
             pass
 
