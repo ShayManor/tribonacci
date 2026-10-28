@@ -26,7 +26,7 @@ def main():
             line, res = run_once(mode, FILE_PATH, time=f'{time}s')
             results[time] = res
             print(f"{time}: {math.log2(res):.2f}")
-        return
+        return None
 
     if run_lead:
         N = 20
