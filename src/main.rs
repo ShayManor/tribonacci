@@ -63,8 +63,8 @@ fn main() {
                 for step in 0..STEPS {
                     let mut r = a + b + c ;
             // Instead of modulo
-                    r = r.min(r.wrapping_sub(p))
-                    r = r.min(r.wrapping_sub(p))
+                    r = r.min(r.wrapping_sub(p));
+                    r = r.min(r.wrapping_sub(p));
                     a = b;
                     b = c;
                     c = r;
