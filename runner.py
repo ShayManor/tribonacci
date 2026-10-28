@@ -18,7 +18,7 @@ def main():
     run_lead = args.leaderboard
 
     if run_lead:
-        N = 5
+        N = 20
         sum, line_avg = 0, 0
         for n in range(N):
             line, res = run_once(mode, FILE_PATH)
