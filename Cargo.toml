@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+montmul = { version = "0.1.0", features = ["gpu"] }
 rayon = "1.12.0"
 rug = { version = "1.30", default-features = false, features = ["integer"] }
+anyhow = "1"
 
