@@ -120,7 +120,6 @@ fn main() -> anyhow::Result<()> {
     for line in file.lines().skip(53) {  // starts with 1, 1, 1, ...
         let line = line?;
         let (i, n) = line.split_once(", ").unwrap();
-
         let n: Integer = n.parse()?;
         let k = (n.significant_bits() as usize + 4).div_ceil(32);
         let len = (2 * k).next_power_of_two().max(8);
@@ -135,9 +134,8 @@ fn main() -> anyhow::Result<()> {
                  if p {
                      println!("PRP at index {i}");
                  }
-                eprintln!("done through index {}", part.last().unwrap().0);
              }
-
+            eprintln!("done through index {}", part.last().unwrap().0);
          }
     }
     Ok(())
